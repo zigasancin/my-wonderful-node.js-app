@@ -1,16 +1,36 @@
 {
   "name": "my-wonderful-node.js-app",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "The name is what your thing is called.",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zigasancin/my-wonderful-node.js-app.git"
+  },
+  "keywords": [
+    "name",
+    "thing",
+    "call"
+  ],
+  "author": "Žiga Sancin <info@bisi.si> (https://bisi.si)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zigasancin/my-wonderful-node.js-app/issues"
+  },
+  "homepage": "https://github.com/zigasancin/my-wonderful-node.js-app#readme",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
+    "body-parser": "^1.19.0",
+    "connect-ensure-login": "^0.1.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-session": "^1.16.2",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.4",
     "serve-static": "^1.14.1"
   }

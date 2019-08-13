@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 My Wonderful Node.js App
+  if !user
+    p Welcome, please #[a(href="/login") login].
+  else
+    p Welcome back, #{user.username}!
+    p Feel free to #[a(href="/logout") logout].
