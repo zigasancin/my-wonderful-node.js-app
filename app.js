@@ -7,6 +7,7 @@ const Strategy = require( 'passport-local' ).Strategy;
 const bodyParser = require( 'body-parser' );
 const morgan = require( 'morgan' );
 const ensureLogin = require( 'connect-ensure-login' );
+const fetch = require( 'node-fetch' );
 const db = require( './db' );
 
 passport.use( new Strategy( function ( username, password, cb ) {
@@ -74,7 +75,19 @@ app.get( '/logout', function ( req, res ) {
 } );
 
 app.get( '/promise', ensureLogin.ensureLoggedIn(), function ( req, res ) {
-	res.render( 'promise', { user: req.user } );
+	fetch( 'https://bisi.si/wp-json/wp/v2/posts?categories=24&per_page=5' ).then(
+		function ( response ) {
+			return response.json();
+		}
+	).then(
+		function ( response ) {
+			res.render( 'promise', { posts: response } );
+		}
+	).catch(
+		function ( error ) {
+			console.log( error );
+		}
+	);
 } );
 
 app.use( function( req, res, next ) {
