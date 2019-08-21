@@ -88,6 +88,16 @@ app.get( '/promise', ensureLogin.ensureLoggedIn(), ( req, res ) => {
 	);
 } );
 
+app.get( '/async-await-eat', ensureLogin.ensureLoggedIn(), async ( req, res ) => {
+	try {
+		const response = await fetch( 'https://bisi.si/wp-json/wp/v2/posts?include=9394,9119,2719,2489,2450' );
+		const json = await response.json();
+		res.render( 'async-await-eat', { posts: json } );
+	} catch (error) {
+		console.log( error );
+	}
+} );
+
 app.use( ( req, res, next ) => {
 	next( createError( 404 ) );
 } );

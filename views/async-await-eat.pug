@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  p 🍽
+  div
+    ul
+      each post in posts
+        li
+          a(href=post.link) !{post.title.rendered}
