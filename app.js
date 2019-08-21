@@ -10,8 +10,8 @@ const ensureLogin = require( 'connect-ensure-login' );
 const fetch = require( 'node-fetch' );
 const db = require( './db' );
 
-passport.use( new Strategy( function ( username, password, cb ) {
-	db.findByUsername( username, function ( err, user ) {
+passport.use( new Strategy( ( username, password, cb ) => {
+	db.findByUsername( username, ( err, user ) => {
 		if ( err ) {
 			return cb( err );
 		}
@@ -28,12 +28,12 @@ passport.use( new Strategy( function ( username, password, cb ) {
 	} );
 } ) );
 
-passport.serializeUser( function ( user, cb ) {
+passport.serializeUser( ( user, cb ) => {
 	cb( null, user.id );
 } );
 
-passport.deserializeUser( function ( id, cb ) {
-	db.findById( id, function ( err, user ) {
+passport.deserializeUser( ( id, cb ) => {
+	db.findById( id, ( err, user ) => {
 		if ( err) {
 			return cb( err );
 		}
@@ -57,44 +57,42 @@ app.use( express.static( path.join( __dirname, 'public' ) ) );
 
 app.use( '/static', express.static( path.join( __dirname, 'public' ) ) );
 
-app.get( '/', function ( req, res ) {
+app.get( '/', ( req, res ) => {
 	res.render( 'index', { user: req.user } );
 } );
 
-app.get( '/login', function ( req, res ) {
+app.get( '/login', ( req, res ) => {
 	res.render( 'login' );
 } );
 
-app.post( '/login', passport.authenticate( 'local', { failureRedirect: '/login' } ), function ( req, res ) {
+app.post( '/login', passport.authenticate( 'local', { failureRedirect: '/login' } ), ( req, res ) => {
 	res.redirect( '/' );
 } );
 
-app.get( '/logout', function ( req, res ) {
+app.get( '/logout', ( req, res ) => {
 	req.logout();
 	res.redirect( '/' );
 } );
 
-app.get( '/promise', ensureLogin.ensureLoggedIn(), function ( req, res ) {
+app.get( '/promise', ensureLogin.ensureLoggedIn(), ( req, res ) => {
 	fetch( 'https://bisi.si/wp-json/wp/v2/posts?categories=24&per_page=5' ).then(
-		function ( response ) {
-			return response.json();
-		}
+		response => response.json()
 	).then(
-		function ( response ) {
+		response => {
 			res.render( 'promise', { posts: response } );
 		}
 	).catch(
-		function ( error ) {
+		error => {
 			console.log( error );
 		}
 	);
 } );
 
-app.use( function( req, res, next ) {
+app.use( ( req, res, next ) => {
 	next( createError( 404 ) );
 } );
 
-app.use( function( err, req, res ) {
+app.use( ( err, req, res ) => {
 	res.locals.message = err.message;
 	res.locals.error = req.app.get( 'env' ) === 'development' ? err : {};
 	res.status( err.status || 500 );
