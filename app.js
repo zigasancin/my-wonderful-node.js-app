@@ -93,7 +93,7 @@ app.get( '/async-await-eat', ensureLogin.ensureLoggedIn(), async ( req, res ) =>
 		const response = await fetch( 'https://bisi.si/wp-json/wp/v2/posts?include=9394,9119,2719,2489,2450' );
 		const json = await response.json();
 		res.render( 'async-await-eat', { posts: json } );
-	} catch (error) {
+	} catch ( error ) {
 		console.log( error );
 	}
 } );
